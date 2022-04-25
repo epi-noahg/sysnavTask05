@@ -17,5 +17,6 @@
     matrix_t *create_matrix(int size_x, int size_y);
     void fill_matrix(int **matrix, char *map);
     void print_matrix(matrix_t *matrix);
+    void propagation(matrix_t *matrix);
 
 #endif /* !MATRIX_H_ */

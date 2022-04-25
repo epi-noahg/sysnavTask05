@@ -42,10 +42,31 @@ void fill_matrix(int **matrix, char *map)
         : map[x] == '#' ? 1
         : map[x] == 'E' ? 0
         : map[x] == 'S' ? 0
-        : map[x] == 'F' ? 1
+        : map[x] == 'F' ? 2
         : matrix[i][j]);
         j++;
     }
+}
+
+void propagation(matrix_t *matrix)
+{
+    for (int i = 0; i < matrix->y_max; i++) {
+        for (int j = 0; j < matrix->x_max; j++) {
+            if (matrix->matrix[i][j] == 2) {
+                i - 1 >= 0 ? matrix->matrix[i - 1][j] = -2 : 0;
+                i + 1 < matrix->y_max - 1 ? matrix->matrix[i + 1][j] = -2 : 0;
+                j - 1 >= 0 ? matrix->matrix[i][j - 1] = -2 : 0;
+                j + 1 < matrix->x_max - 1 ? matrix->matrix[i][j + 1] = -2 : 0;
+            }
+        }
+    }
+    for (int i = 0; i < matrix->y_max; i++) {
+        for (int j = 0; j < matrix->x_max; j++) {
+            if (matrix->matrix[i][j] == -2)
+                matrix->matrix[i][j] = 2;
+        }
+    }
+
 }
 
 void print_matrix(matrix_t *matrix)

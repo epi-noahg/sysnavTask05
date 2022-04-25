@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC	=	$(shell echo src/*.c src/error_handling/*.c src/help/*.c src/solver/*.c)
+SRC	=	$(shell echo src/*.c src/error_handling/*.c src/help/*.c src/solver/*.c src/utils/*.c)
 
 INC	=	-I include
 
