@@ -10,34 +10,38 @@
 #include "../include/utils.h"
 #include <stdio.h>
 
-int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere) {
+int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
     static int value = 1;
+    if (reset)
+        value = 1;
 
-    if (x == endX && y == endY)
+    if (x == endX && y == endY) {
+        correctPath->matrix[x][y] = value++;
         return value;
+    }
     if (maze->matrix[x][y] || wasHere->matrix[x][y])
         return 0;
     wasHere->matrix[x][y] = 1;
     if (x != 0) {
-        if (recursive_solve(x - 1, y, endX, endY, maze, correctPath, wasHere)) {
+        if (recursive_solve(x - 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
     if (y != 0) {
-        if (recursive_solve(x, y - 1, endX, endY, maze, correctPath, wasHere)) {
+        if (recursive_solve(x, y - 1, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
-    if (x != maze->x_max - 1) {
-        if (recursive_solve(x + 1, y, endX, endY, maze, correctPath, wasHere)) {
+    if (x != maze->xMax - 1) {
+        if (recursive_solve(x + 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
-    if (y != maze->y_max - 1) {
-        if (recursive_solve(x, y + 1, endX, endY, maze, correctPath, wasHere)) {
+    if (y != maze->yMax - 1) {
+        if (recursive_solve(x, y + 1, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
@@ -49,9 +53,9 @@ int smallneighbour(matrix_t *matrix, int x, int y, int a)
 {
     int value;
     int up = x - 1 < 0 ? 999999 : matrix->matrix[x - 1][y] <= 0 ? 999999 : matrix->matrix[x - 1][y];
-    int down = x + 1 >= matrix->x_max ? 999999 : matrix->matrix[x + 1][y] <= 0 ? 999999 : matrix->matrix[x + 1][y];
+    int down = x + 1 >= matrix->xMax ? 999999 : matrix->matrix[x + 1][y] <= 0 ? 999999 : matrix->matrix[x + 1][y];
     int left = y - 1 < 0 ? 999999 : matrix->matrix[x][y - 1] <= 0 ? 999999 : matrix->matrix[x][y - 1] <= 0 ? 999999 : matrix->matrix[x][y - 1];
-    int right = y + 1 >= matrix->y_max ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1];
+    int right = y + 1 >= matrix->yMax ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1];
 
     value = MIN(up, down);
     value = MIN(value, left);
@@ -80,25 +84,21 @@ void real_path(matrix_t *solvedMaze, int x, int y)
         y = y2;
     }
     solvedMaze->matrix[x][y] *= -1;
-    for (int i = 0; i < solvedMaze->y_max; i++) {
-        for (int j = 0; j < solvedMaze->x_max; j++) {
+    for (int i = 0; i < solvedMaze->yMax; i++) {
+        for (int j = 0; j < solvedMaze->xMax; j++) {
             solvedMaze->matrix[i][j] = solvedMaze->matrix[i][j] >= 0 ? solvedMaze->matrix[i][j] = 0 : 1;
         }
     }
 }
 
-void solve_maze(matrix_t *maze)
+void solve_maze(matrix_t *maze, vector_t start, vector_t end)
 {
-    matrix_t *wasHere = create_matrix(maze->x_max, maze->y_max);
-    matrix_t *correctPath = create_matrix(maze->x_max, maze->y_max);
-    int x = 8;
-    int y = 4;
-    int endX = 5;
-    int endY = 7;
+    matrix_t *wasHere = create_matrix(maze->xMax, maze->yMax);
+    matrix_t *correctPath = create_matrix(maze->xMax, maze->yMax);
 
-    int b = recursive_solve(x, y, endX, endY, maze, correctPath, wasHere);
+    int b = recursive_solve(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
     if (b) {
-        real_path(correctPath, x, y);
+        real_path(correctPath, start.x, start.y);
         print_matrix(correctPath);
     }
     else
@@ -108,9 +108,13 @@ void solve_maze(matrix_t *maze)
 void solver(char **av)
 {
     char *map = open_file(av);
+    int nbExit = count_char(map, 'E');
     matrix_t *matrix = create_matrix(find_length(map), count_char(map, '\n'));
 
     // print_matrix(matrix);
     fill_matrix(matrix->matrix, map);
-    solve_maze(matrix);
+    for (int i = 0; i < nbExit; i++) {
+        solve_maze(matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
+        printf("\n");
+    }
 }

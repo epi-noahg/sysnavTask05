@@ -10,8 +10,8 @@
 
     typedef struct matrix_s {
         int **matrix;
-        int x_max;
-        int y_max;
+        int xMax;
+        int yMax;
     } matrix_t;
 
     matrix_t *create_matrix(int size_x, int size_y);

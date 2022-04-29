@@ -23,8 +23,8 @@ matrix_t *create_matrix(int size_x, int size_y)
             matrix[i][j] = 0;
     }
     res->matrix = matrix;
-    res->x_max = size_x;
-    res->y_max = size_y;
+    res->xMax = size_x;
+    res->yMax = size_y;
     return (res);
 }
 
@@ -50,18 +50,18 @@ void fill_matrix(int **matrix, char *map)
 
 void propagation(matrix_t *matrix)
 {
-    for (int i = 0; i < matrix->y_max; i++) {
-        for (int j = 0; j < matrix->x_max; j++) {
+    for (int i = 0; i < matrix->yMax; i++) {
+        for (int j = 0; j < matrix->xMax; j++) {
             if (matrix->matrix[i][j] == 2) {
                 i - 1 >= 0 ? matrix->matrix[i - 1][j] = -2 : 0;
-                i + 1 < matrix->y_max - 1 ? matrix->matrix[i + 1][j] = -2 : 0;
+                i + 1 < matrix->yMax - 1 ? matrix->matrix[i + 1][j] = -2 : 0;
                 j - 1 >= 0 ? matrix->matrix[i][j - 1] = -2 : 0;
-                j + 1 < matrix->x_max - 1 ? matrix->matrix[i][j + 1] = -2 : 0;
+                j + 1 < matrix->xMax - 1 ? matrix->matrix[i][j + 1] = -2 : 0;
             }
         }
     }
-    for (int i = 0; i < matrix->y_max; i++) {
-        for (int j = 0; j < matrix->x_max; j++) {
+    for (int i = 0; i < matrix->yMax; i++) {
+        for (int j = 0; j < matrix->xMax; j++) {
             if (matrix->matrix[i][j] == -2)
                 matrix->matrix[i][j] = 2;
         }
@@ -71,8 +71,8 @@ void propagation(matrix_t *matrix)
 
 void print_matrix(matrix_t *matrix)
 {
-    for (int i = 0; i < matrix->y_max; i++) {
-        for (int j = 0; j < matrix->x_max; j++) {
+    for (int i = 0; i < matrix->yMax; i++) {
+        for (int j = 0; j < matrix->xMax; j++) {
             printf("%2d ", matrix->matrix[i][j]);
         }
         printf("\n");

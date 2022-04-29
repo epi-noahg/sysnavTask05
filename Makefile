@@ -11,7 +11,7 @@ INC	=	-I include
 
 OBJ	=	$(SRC:.c=.o)
 
-CFLAGS	=	$(INC)
+CFLAGS	=	$(INC) -g
 
 NAME	=	task05
 
