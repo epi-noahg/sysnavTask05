@@ -7,6 +7,7 @@
 
 #include "../../include/vector.h"
 #include <string.h>
+#include <stdlib.h>
 
 int count_char(char *str, char c)
 {

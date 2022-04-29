@@ -28,14 +28,14 @@ int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *
             return value;
         }
     }
-    if (y != 0) {
-        if (recursive_solve(x, y - 1, endX, endY, maze, correctPath, wasHere, 0)) {
+    if (x != maze->xMax - 1) {
+        if (recursive_solve(x + 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
-    if (x != maze->xMax - 1) {
-        if (recursive_solve(x + 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
+    if (y != 0) {
+        if (recursive_solve(x, y - 1, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
