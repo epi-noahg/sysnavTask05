@@ -6,6 +6,7 @@
 */
 
 #include "../include/matrix.h"
+#include "../include/utils.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,6 +49,21 @@ void fill_matrix(int **matrix, char *map)
     }
 }
 
+void add_fire(int **matrix, char *map)
+{
+    int i = 0;
+    int j = 0;
+
+    for (int x = 0; map[x] != '\0'; x++) {
+        while (map[x] == '\n')
+            i++, j = 0, x++;
+        if (map[x] == '\0')
+            break;
+        matrix[i][j] = (map[x] == 'F' ? 2 : matrix[i][j]);
+        j++;
+    }
+}
+
 void propagation(matrix_t *matrix)
 {
     for (int i = 0; i < matrix->yMax; i++) {
@@ -66,15 +82,29 @@ void propagation(matrix_t *matrix)
                 matrix->matrix[i][j] = 2;
         }
     }
+}
 
+matrix_t *copy_matrix(matrix_t *matrix)
+{
+    matrix_t *copy = create_matrix(matrix->xMax, matrix->yMax);
+
+    for (int i = 0; i < matrix->yMax; i++) {
+        for (int j = 0; j < matrix->xMax; j++)
+            copy->matrix[i][j] = matrix->matrix[i][j];
+    }
+    return (copy);
 }
 
 void print_matrix(matrix_t *matrix)
 {
     for (int i = 0; i < matrix->yMax; i++) {
-        for (int j = 0; j < matrix->xMax; j++) {
+        for (int j = 0; j < matrix->xMax; j++)
             printf("%2d ", matrix->matrix[i][j]);
-        }
+        printf("\n");
+    }
+    for (int i = 0; i < matrix->yMax; i++) {
+        for (int j = 0; j < matrix->xMax; j++)
+            printf("%2d ", matrix->matrix[i][j]);
         printf("\n");
     }
 }

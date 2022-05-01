@@ -18,5 +18,7 @@
     void fill_matrix(int **matrix, char *map);
     void print_matrix(matrix_t *matrix);
     void propagation(matrix_t *matrix);
+    void add_fire(int **matrix, char *map);
+    matrix_t *copy_matrix(matrix_t *matrix);
 
 #endif /* !MATRIX_H_ */

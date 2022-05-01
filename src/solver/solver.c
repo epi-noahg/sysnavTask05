@@ -70,11 +70,11 @@ int smallneighbour(matrix_t *matrix, int x, int y, int a)
         return (a == 0 ? x : y + 1);
 }
 
-void real_path(matrix_t *solvedMaze, int x, int y)
+int real_path(matrix_t *solvedMaze, int x, int y)
 {
     int x2 = 0;
     int y2 = 0;
-    int i = 0;
+    int count = 0;
 
     while (solvedMaze->matrix[x][y] != 1) {
         solvedMaze->matrix[x][y] *= -1;
@@ -86,12 +86,63 @@ void real_path(matrix_t *solvedMaze, int x, int y)
     solvedMaze->matrix[x][y] *= -1;
     for (int i = 0; i < solvedMaze->yMax; i++) {
         for (int j = 0; j < solvedMaze->xMax; j++) {
-            solvedMaze->matrix[i][j] = solvedMaze->matrix[i][j] >= 0 ? solvedMaze->matrix[i][j] = 0 : 1;
+            solvedMaze->matrix[i][j] = solvedMaze->matrix[i][j] >= 0 ?
+            0 : 1;
+            count += solvedMaze->matrix[i][j] == 1 ? 1 : 0;
         }
     }
+    return (count);
 }
 
-void solve_maze(matrix_t *maze, vector_t start, vector_t end)
+int neighbour_path(matrix_t *matrix, int i, int j)
+{
+    if (i + 1 < matrix->xMax && matrix->matrix[i + 1][j] == 1)
+        return (1);
+    if (i - 1 >= 0 && matrix->matrix[i - 1][j] == 1)
+        return (2);
+    if (j + 1 < matrix->yMax && matrix->matrix[i][j + 1] == 1)
+        return (3);
+    if (j - 1 >= 0 && matrix->matrix[i][j - 1] == 1)
+        return (4);
+    return (0);
+}
+
+int check_results(matrix_t *matrix, vector_t start, vector_t end)
+{
+    int i = start.x;
+    int j = start.y;
+    int np;
+
+    while ((np = neighbour_path(matrix, i, j)) != 0) {
+        matrix->matrix[i][j] *= -1;
+        np == 1 ? i++ : 0;
+        np == 2 ? i-- : 0;
+        np == 3 ? j++ : 0;
+        np == 4 ? j-- : 0;
+        propagation(matrix);
+    }
+    if (end.x == i && end.y == j)
+        return (1);
+    return (0);
+}
+
+void print_trajectory(matrix_t *matrix, vector_t start, vector_t end)
+{
+    int i = start.x;
+    int j = start.y;
+    int np;
+
+    while ((np = neighbour_path(matrix, i, j)) != 0) {
+        matrix->matrix[i][j] *= -1;
+        np == 1 ? i++, printf("D") : 0;
+        np == 2 ? i--, printf("U") : 0;
+        np == 3 ? j++, printf("R") : 0;
+        np == 4 ? j--, printf("L") : 0;
+    }
+    printf("\n");
+}
+
+void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
 {
     matrix_t *wasHere = create_matrix(maze->xMax, maze->yMax);
     matrix_t *correctPath = create_matrix(maze->xMax, maze->yMax);
@@ -99,7 +150,9 @@ void solve_maze(matrix_t *maze, vector_t start, vector_t end)
     int b = recursive_solve(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
     if (b) {
         real_path(correctPath, start.x, start.y);
-        print_matrix(correctPath);
+        add_fire(correctPath->matrix, map);
+        if (check_results(copy_matrix(correctPath), start, end))
+            print_trajectory(correctPath, start, end);
     }
     else
         printf("fail\n");
@@ -111,10 +164,9 @@ void solver(char **av)
     int nbExit = count_char(map, 'E');
     matrix_t *matrix = create_matrix(find_length(map), count_char(map, '\n'));
 
-    // print_matrix(matrix);
     fill_matrix(matrix->matrix, map);
     for (int i = 0; i < nbExit; i++) {
-        solve_maze(matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
+        solve_maze(map, matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
         printf("\n");
     }
 }
