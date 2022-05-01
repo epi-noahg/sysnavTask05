@@ -8,6 +8,7 @@
 #include "../include/open_file.h"
 #include "../include/matrix.h"
 #include "../include/utils.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
@@ -148,17 +149,13 @@ void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
     matrix_t *wasHere = create_matrix(maze->xMax, maze->yMax);
     matrix_t *correctPath = create_matrix(maze->xMax, maze->yMax);
 
-    int b = recursive_solve(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
-    if (b) {
-        real_path(correctPath, start.x, start.y);
-        add_fire(correctPath->matrix, map);
-        if (check_results(copy_matrix(correctPath), start, end)) {
-            print_trajectory(correctPath, start, end);
-            exit(0);
-        }
+    recursive_solve(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
+    real_path(correctPath, start.x, start.y);
+    add_fire(correctPath->matrix, map);
+    if (check_results(copy_matrix(correctPath), start, end)) {
+        print_trajectory(correctPath, start, end);
+        exit(0);
     }
-    else
-        printf("fail\n");
 }
 
 void solver(char **av)
@@ -170,4 +167,6 @@ void solver(char **av)
     fill_matrix(matrix->matrix, map);
     for (int i = 0; i < nbExit; i++)
         solve_maze(map, matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
+    printf("Nothing found!\n");
+    exit(0);
 }
