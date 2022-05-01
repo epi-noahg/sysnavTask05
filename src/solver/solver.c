@@ -113,6 +113,7 @@ int check_results(matrix_t *matrix, vector_t start, vector_t end)
     int j = start.y;
     int np;
 
+    propagation(matrix);
     while ((np = neighbour_path(matrix, i, j)) != 0) {
         matrix->matrix[i][j] *= -1;
         np == 1 ? i++ : 0;
@@ -151,8 +152,10 @@ void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
     if (b) {
         real_path(correctPath, start.x, start.y);
         add_fire(correctPath->matrix, map);
-        if (check_results(copy_matrix(correctPath), start, end))
+        if (check_results(copy_matrix(correctPath), start, end)) {
             print_trajectory(correctPath, start, end);
+            exit(0);
+        }
     }
     else
         printf("fail\n");
@@ -165,8 +168,6 @@ void solver(char **av)
     matrix_t *matrix = create_matrix(find_length(map), count_char(map, '\n'));
 
     fill_matrix(matrix->matrix, map);
-    for (int i = 0; i < nbExit; i++) {
+    for (int i = 0; i < nbExit; i++)
         solve_maze(map, matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
-        printf("\n");
-    }
 }

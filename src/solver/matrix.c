@@ -102,9 +102,4 @@ void print_matrix(matrix_t *matrix)
             printf("%2d ", matrix->matrix[i][j]);
         printf("\n");
     }
-    for (int i = 0; i < matrix->yMax; i++) {
-        for (int j = 0; j < matrix->xMax; j++)
-            printf("%2d ", matrix->matrix[i][j]);
-        printf("\n");
-    }
 }
