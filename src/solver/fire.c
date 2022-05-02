@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2021
+** SYSNAV PROJECT, 2021
 ** sysnavTask05
 ** File description:
 ** fire.c
