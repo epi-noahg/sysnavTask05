@@ -12,6 +12,7 @@
 
 char *open_file(char **av)
 {
+    // open a file and return it's content
     char *buff;
     struct stat st;
     int fd = open(av[1], O_RDONLY);

@@ -12,4 +12,5 @@ int main(int ac, char **av)
     error_handling(ac, av);
     help(ac, av);
     solver(av);
+    return (0);
 }
