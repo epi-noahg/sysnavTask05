@@ -5,7 +5,7 @@
 ** utils.c
 */
 
-#include "../../include/vector.h"
+#include "vector.h"
 #include <string.h>
 #include <stdlib.h>
 
