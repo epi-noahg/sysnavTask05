@@ -1,18 +1,19 @@
 /*
-** EPITECH PROJECT, 2022
-** ex5
+** SYSNAV PROJECT, 2022
+** sysnavTask05
 ** File description:
 ** error_handling
 */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 void error_handling(int ac, char **av)
 {
     if (ac != 2) {
-        write(2, "Error: Invalid number of arguments\n", 36);
-        write(2, "  Try: ./task05 -h\n", 20);
+        fprintf(stderr, "Error: Invalid number of arguments\n");
+        fprintf(stderr, "  Try: ./task05 -h\n");
         exit(1);
     }
 }

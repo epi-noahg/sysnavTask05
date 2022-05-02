@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2022
+** SYSNAV PROJECT, 2022
 ** sysnavTask05
 ** File description:
 ** utils
@@ -11,6 +11,7 @@
     #include "vector.h"
 
     #define MIN(a, b) (a < b) ? a : b
+    #define INF 999999
 
     int count_char(char *str, char c);
     int find_length(char *str);

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2021
-** ex5
+** sysnavTask05
 ** File description:
 ** open_file.c
 */

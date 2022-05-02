@@ -1,21 +1,22 @@
 /*
 ** EPITECH PROJECT, 2021
-** ex5
+** sysnavTask05
 ** File description:
 ** solver.c
 */
 
-#include "../include/open_file.h"
-#include "../include/matrix.h"
-#include "../include/utils.h"
+#include "open_file.h"
+#include "matrix.h"
+#include "utils.h"
+#include "fire.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
     static int value = 1;
+
     if (reset)
         value = 1;
-
     if (x == endX && y == endY) {
         correctPath->matrix[x][y] = value++;
         return value;
@@ -53,10 +54,10 @@ int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *
 int smallneighbour(matrix_t *matrix, int x, int y, int a)
 {
     int value;
-    int up = x - 1 < 0 ? 999999 : matrix->matrix[x - 1][y] <= 0 ? 999999 : matrix->matrix[x - 1][y];
-    int down = x + 1 >= matrix->xMax ? 999999 : matrix->matrix[x + 1][y] <= 0 ? 999999 : matrix->matrix[x + 1][y];
-    int left = y - 1 < 0 ? 999999 : matrix->matrix[x][y - 1] <= 0 ? 999999 : matrix->matrix[x][y - 1] <= 0 ? 999999 : matrix->matrix[x][y - 1];
-    int right = y + 1 >= matrix->yMax ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1] <= 0 ? 999999 : matrix->matrix[x][y + 1];
+    int up = x - 1 < 0 ? INF : matrix->matrix[x - 1][y] <= 0 ? INF : matrix->matrix[x - 1][y];
+    int down = x + 1 >= matrix->xMax ? INF : matrix->matrix[x + 1][y] <= 0 ? INF : matrix->matrix[x + 1][y];
+    int left = y - 1 < 0 ? INF : matrix->matrix[x][y - 1] <= 0 ? INF : matrix->matrix[x][y - 1] <= 0 ? INF : matrix->matrix[x][y - 1];
+    int right = y + 1 >= matrix->yMax ? INF : matrix->matrix[x][y + 1] <= 0 ? INF : matrix->matrix[x][y + 1] <= 0 ? INF : matrix->matrix[x][y + 1];
 
     value = MIN(up, down);
     value = MIN(value, left);

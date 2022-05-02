@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2022
+** SYSNAV PROJECT, 2022
 ** sysnavTask05
 ** File description:
 ** vector

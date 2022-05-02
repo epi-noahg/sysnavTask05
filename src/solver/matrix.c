@@ -1,12 +1,12 @@
 /*
 ** EPITECH PROJECT, 2021
-** ex5
+** sysnavTask05
 ** File description:
 ** matrix.c
 */
 
-#include "../include/matrix.h"
-#include "../include/utils.h"
+#include "matrix.h"
+#include "utils.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,41 +46,6 @@ void fill_matrix(int **matrix, char *map)
         : map[x] == 'F' ? 2
         : matrix[i][j]);
         j++;
-    }
-}
-
-void add_fire(int **matrix, char *map)
-{
-    int i = 0;
-    int j = 0;
-
-    for (int x = 0; map[x] != '\0'; x++) {
-        while (map[x] == '\n')
-            i++, j = 0, x++;
-        if (map[x] == '\0')
-            break;
-        matrix[i][j] = (map[x] == 'F' ? 2 : matrix[i][j]);
-        j++;
-    }
-}
-
-void propagation(matrix_t *matrix)
-{
-    for (int i = 0; i < matrix->yMax; i++) {
-        for (int j = 0; j < matrix->xMax; j++) {
-            if (matrix->matrix[i][j] == 2) {
-                i - 1 >= 0 ? matrix->matrix[i - 1][j] = -2 : 0;
-                i + 1 < matrix->yMax - 1 ? matrix->matrix[i + 1][j] = -2 : 0;
-                j - 1 >= 0 ? matrix->matrix[i][j - 1] = -2 : 0;
-                j + 1 < matrix->xMax - 1 ? matrix->matrix[i][j + 1] = -2 : 0;
-            }
-        }
-    }
-    for (int i = 0; i < matrix->yMax; i++) {
-        for (int j = 0; j < matrix->xMax; j++) {
-            if (matrix->matrix[i][j] == -2)
-                matrix->matrix[i][j] = 2;
-        }
     }
 }
 

@@ -1,6 +1,6 @@
 /*
-** EPITECH PROJECT, 2022
-** ex5
+** SYSNAV PROJECT, 2022
+** sysnavTask05
 ** File description:
 ** main
 */

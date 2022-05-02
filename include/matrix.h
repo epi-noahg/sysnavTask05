@@ -1,6 +1,6 @@
 /*
-** EPITECH PROJECT, 2022
-** ex5
+** SYSNAV PROJECT, 2022
+** sysnavTask05
 ** File description:
 ** matrix
 */
@@ -17,8 +17,6 @@
     matrix_t *create_matrix(int size_x, int size_y);
     void fill_matrix(int **matrix, char *map);
     void print_matrix(matrix_t *matrix);
-    void propagation(matrix_t *matrix);
-    void add_fire(int **matrix, char *map);
     matrix_t *copy_matrix(matrix_t *matrix);
 
 #endif /* !MATRIX_H_ */
