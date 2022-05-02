@@ -90,8 +90,15 @@ void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
     add_fire(correctPath->matrix, map);
     if (check_results(copy_matrix(correctPath), start, end)) {
         print_trajectory(correctPath, start, end);
+        free_matrix(maze);
+        free_matrix(wasHere);
+        free_matrix(correctPath);
+        free(map);
         exit(0);
     }
+    free_matrix(maze);
+    free_matrix(wasHere);
+    free_matrix(correctPath);
 }
 
 void solver(char **av)
@@ -103,5 +110,7 @@ void solver(char **av)
     fill_matrix(matrix->matrix, map);
     for (int i = 0; i < nbExit; i++)
         solve_maze(map, matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
+    free_matrix(matrix);
+    free(map);
     exit(1);
 }

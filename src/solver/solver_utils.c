@@ -81,6 +81,7 @@ int check_results(matrix_t *matrix, vector_t start, vector_t end)
         np == 4 ? j-- : 0;
         propagation(matrix);
     }
+    free_matrix(matrix);
     if (end.x == i && end.y == j)
         return (1);
     return (0);

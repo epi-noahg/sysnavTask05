@@ -15,7 +15,7 @@ matrix_t *create_matrix(int size_x, int size_y)
 {
     // create a x * y matrix
     int **matrix = malloc(sizeof(int *) * size_y);
-    matrix_t *res = malloc(sizeof(matrix_t));;
+    matrix_t *res = malloc(sizeof(matrix_t));
 
     (matrix == NULL || res == NULL) ? exit(1) : 0;
     for (int i = 0; i < size_y; i++) {
@@ -71,4 +71,12 @@ void print_matrix(matrix_t *matrix)
             printf("%2d ", matrix->matrix[i][j]);
         printf("\n");
     }
+}
+
+void free_matrix(matrix_t *matrix)
+{
+    for (int i = 0; i < matrix->yMax; i++)
+        free(matrix->matrix[i]);
+    free(matrix->matrix);
+    free(matrix);
 }

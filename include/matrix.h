@@ -18,5 +18,6 @@
     void fill_matrix(int **matrix, char *map);
     void print_matrix(matrix_t *matrix);
     matrix_t *copy_matrix(matrix_t *matrix);
+    void free_matrix(matrix_t *matrix);
 
 #endif /* !MATRIX_H_ */
