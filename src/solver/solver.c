@@ -178,6 +178,5 @@ void solver(char **av)
     fill_matrix(matrix->matrix, map);
     for (int i = 0; i < nbExit; i++)
         solve_maze(map, matrix, find_coord(map, 0, 'S'), find_coord(map, i, 'E'));
-    printf("Nothing found!\n");
-    exit(0);
+    exit(1);
 }
