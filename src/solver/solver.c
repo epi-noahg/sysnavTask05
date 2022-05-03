@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
+int recursive_solver(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
     // simple path finding algorithm that finds a path, but it is not the shortest
     static int value = 1; // an integer that is used to number each cell in the path
 
@@ -28,25 +28,25 @@ int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *
     wasHere->matrix[x][y] = 1;
     // recursivly finding a path
     if (x != 0) {
-        if (recursive_solve(x - 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
+        if (recursive_solver(x - 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
     if (x != maze->xMax - 1) {
-        if (recursive_solve(x + 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
+        if (recursive_solver(x + 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
     if (y != 0) {
-        if (recursive_solve(x, y - 1, endX, endY, maze, correctPath, wasHere, 0)) {
+        if (recursive_solver(x, y - 1, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
     }
     if (y != maze->yMax - 1) {
-        if (recursive_solve(x, y + 1, endX, endY, maze, correctPath, wasHere, 0)) {
+        if (recursive_solver(x, y + 1, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
             return value;
         }
@@ -85,7 +85,7 @@ void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
     matrix_t *wasHere = create_matrix(maze->xMax, maze->yMax);
     matrix_t *correctPath = create_matrix(maze->xMax, maze->yMax);
 
-    recursive_solve(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
+    recursive_solver(start.x, start.y, end.x, end.y, maze, correctPath, wasHere, 1);
     real_path(correctPath, start);
     add_fire(correctPath->matrix, map);
     if (check_results(copy_matrix(correctPath), start, end)) {
