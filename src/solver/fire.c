@@ -12,7 +12,7 @@ void add_fire(int **matrix, char *map)
     int i = 0;
     int j = 0;
 
-    // add fire to the matrix (2)
+    // add start fire to the matrix (2)
     for (int x = 0; map[x] != '\0'; x++) {
         while (map[x] == '\n')
             i++, j = 0, x++;

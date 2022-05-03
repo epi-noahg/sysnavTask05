@@ -14,19 +14,19 @@
 #include <stdio.h>
 
 int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *correctPath, matrix_t *wasHere, int reset) {
-    // simple path finding algorithm who find a path but not the shortest
+    // simple path finding algorithm that finds a path, but it is not the shortest
     static int value = 1; // an integer that is used to number each cell in the path
 
     if (reset) // reset the value
         value = 1;
-    if (x == endX && y == endY) { // when the path is find
+    if (x == endX && y == endY) { // when the path is found
         correctPath->matrix[x][y] = value++;
         return value;
     }
     if (maze->matrix[x][y] || wasHere->matrix[x][y])
         return 0;
     wasHere->matrix[x][y] = 1;
-    // finding recursivly a path
+    // recursivly finding a path
     if (x != 0) {
         if (recursive_solve(x - 1, y, endX, endY, maze, correctPath, wasHere, 0)) {
             correctPath->matrix[x][y] = value++;
@@ -56,7 +56,7 @@ int recursive_solve(int x, int y, int endX, int endY, matrix_t *maze, matrix_t *
 
 int real_path(matrix_t *solvedMaze, vector_t start)
 {
-    // find the smallest path thanks to the recursive solver
+    // find the smallest path by using the recursive solver
     int x2 = 0;
     int y2 = 0;
     int count = 0;

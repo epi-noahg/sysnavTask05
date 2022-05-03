@@ -14,7 +14,7 @@ int small_neighbour(matrix_t *matrix, int x, int y, int a)
 {
     // find the smallest neighbour of a cell
     int value;
-    // check if the cell is inside the matrix and put incorrect cell at the infinity
+    // check if the cell is inside the matrix if not, the value of the cell becomes infinity
     int up = x - 1 < 0 ? INF : matrix->matrix[x - 1][y] <= 0 ? INF : matrix->matrix[x - 1][y];
     int down = x + 1 >= matrix->xMax ? INF : matrix->matrix[x + 1][y] <= 0 ? INF : matrix->matrix[x + 1][y];
     int left = y - 1 < 0 ? INF : matrix->matrix[x][y - 1] <= 0 ? INF : matrix->matrix[x][y - 1] <= 0 ? INF : matrix->matrix[x][y - 1];
@@ -36,7 +36,7 @@ int small_neighbour(matrix_t *matrix, int x, int y, int a)
 
 int neighbour_path(matrix_t *matrix, int i, int j)
 {
-    // return the correct cell for the check result
+    // return the correct cell for the function check result
     if (i + 1 < matrix->xMax && matrix->matrix[i + 1][j] == 1)
         return (1);
     if (i - 1 >= 0 && matrix->matrix[i - 1][j] == 1)
@@ -54,7 +54,7 @@ void print_trajectory(matrix_t *matrix, vector_t start, vector_t end)
     int j = start.y;
     int np;
 
-    // print the trajectory when the result is the good
+    // print the trajectory if the result is correct
     while ((np = neighbour_path(matrix, i, j)) != 0) {
         matrix->matrix[i][j] *= -1;
         np == 1 ? i++, printf("D") : 0;

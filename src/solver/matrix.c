@@ -13,7 +13,7 @@
 
 matrix_t *create_matrix(int size_x, int size_y)
 {
-    // create a x * y matrix
+    // create a matrix of size x * y
     int **matrix = malloc(sizeof(int *) * size_y);
     matrix_t *res = malloc(sizeof(matrix_t));
 
