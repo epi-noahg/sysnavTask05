@@ -96,7 +96,6 @@ void solve_maze(char *map, matrix_t *maze, vector_t start, vector_t end)
         free(map);
         exit(0);
     }
-    free_matrix(maze);
     free_matrix(wasHere);
     free_matrix(correctPath);
 }
